@@ -14,7 +14,7 @@ package imgtobmpkeilconvertor;
 
 /**
  * Cette classe contient la fonction main du programme
- * @author admin
+ * @author mathieu guyot (ouranos588)
  */
 public class ImgToBmpKeilConvertor {
 
@@ -26,5 +26,4 @@ public class ImgToBmpKeilConvertor {
         MConvFen modele = new MConvFen();
         VConvFen vue = new VConvFen(modele);
     }
-    
 }

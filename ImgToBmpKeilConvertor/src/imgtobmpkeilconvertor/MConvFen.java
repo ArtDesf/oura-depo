@@ -34,6 +34,7 @@ public class MConvFen extends Observable{
             ImageName = image.getName();
             this.width = imageBuf.getWidth();
             this.height = imageBuf.getHeight();
+            this.SimpImageName();
         } catch (IOException ex) {
             System.out.println("Impossible de convertir l'image");
             Logger.getLogger(VImageShow.class.getName()).log(Level.SEVERE, null, ex);
@@ -115,6 +116,20 @@ public class MConvFen extends Observable{
     }
     
     /**
+     * Cette fonction permet de simplifier le nom de l'image
+     */
+    private void SimpImageName() {
+        String temp = "";
+        for(int i = 0 ; i < this.ImageName.length() ; i++) {
+            char car = this.ImageName.charAt(i);
+            if((car >= 'a' && car <= 'z') || (car >= 'A' && car <= 'Z') || (car >= '0' && car <= '9')) {
+                temp += car;
+            }
+        }
+        this.ImageName = temp;
+    }
+    
+    /**
      * Permet de récupérer le code de l'image (partie .h)
      */
     public String trouverCodeHImage() {
@@ -124,10 +139,25 @@ public class MConvFen extends Observable{
         return code;
     }
     
+    /**
+     * Permet de trouver le code décimal de la couleur
+     * @param red
+     * @param green
+     * @param blue
+     * @return le code décimal de la couleur
+     */
     private int trouverCode(int red, int green, int blue) {
         red >>= 3;
         green >>=2;
         blue >>=3;
         return (red << 11) | (green << 5) | blue;
+    }
+    
+    /**
+     * Permet de vérifier si la fonction est apte à être convertie
+     * @return 
+     */
+    public boolean imageIsValid() {
+        return this.width <= 320 && this.height <= 240;
     }
 }

@@ -30,6 +30,8 @@ public class VConvFen extends JFrame  implements Observer{
     private JButton butLoadImg;
     private JButton butLancerConv;
     private JButton butVoirImage;
+    private JButton butOpenfenColorConv;
+    private JButton butOpenfenInfos;
     private JTextArea taResConv;
     private JTextArea taCouleursRes;
     private JTextArea taBMPArrayCRes;
@@ -59,7 +61,11 @@ public class VConvFen extends JFrame  implements Observer{
         taCouleursRes = new JTextArea(5,43);
         taBMPArrayCRes = new JTextArea(5,43);
         taBMPArrayHRes  = new JTextArea(5,43);     
-                
+        butOpenfenColorConv = new JButton("Convertir une couleur");
+        butOpenfenColorConv.addActionListener(new ConvCouleurLIstener());
+        butOpenfenInfos = new JButton("à propos");
+        butOpenfenInfos.addActionListener(new InfosLIstener());
+        
         this.ajouterEtPlacerComp();
         
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -94,6 +100,8 @@ public class VConvFen extends JFrame  implements Observer{
         super.add(lbInfoTACouleurs);
         super.add(lbInfoTAImageC);
         super.add(lbInfoTAImageH);
+        super.add(butOpenfenColorConv);
+        super.add(butOpenfenInfos);
         
         //layout
         SpringLayout layout  = new SpringLayout();
@@ -147,6 +155,14 @@ public class VConvFen extends JFrame  implements Observer{
                              SpringLayout.SOUTH, lbInfoTAImageC);
         layout.putConstraint(SpringLayout.NORTH, scpanResH, 10, 
                              SpringLayout.SOUTH, lbInfoTAImageH);
+        layout.putConstraint(SpringLayout.NORTH, this.butOpenfenColorConv, 550, 
+                             SpringLayout.NORTH, this);
+        layout.putConstraint(SpringLayout.WEST, this.butOpenfenColorConv, 10, 
+                             SpringLayout.WEST, this);
+        layout.putConstraint(SpringLayout.NORTH, this.butOpenfenInfos, 550, 
+                             SpringLayout.NORTH, this);
+        layout.putConstraint(SpringLayout.WEST, this.butOpenfenInfos, 400, 
+                             SpringLayout.WEST, this);
     }
     
     /**
@@ -187,12 +203,19 @@ public class VConvFen extends JFrame  implements Observer{
                 image = fc.getSelectedFile();
                 if(image != null) {
                     modele.setImage(image);
-                    VConvFen.this.butLancerConv.setEnabled(true);
-                    VConvFen.this.butVoirImage.setEnabled(true);
-                    String consText = VConvFen.this.taResConv.getText();
-                    consText += "\nL'image " + image.getPath() + " a correctement été chargée.";
-                    consText += "\nAttente du lancement de la conversion...";
-                    VConvFen.this.taResConv.setText(consText);
+                    if(modele.imageIsValid()) {
+                        VConvFen.this.butLancerConv.setEnabled(true);
+                        VConvFen.this.butVoirImage.setEnabled(true);
+                        String consText = VConvFen.this.taResConv.getText();
+                        consText += "\nL'image " + image.getPath() + " a correctement été chargée.";
+                        consText += "\nAttente du lancement de la conversion...";
+                        VConvFen.this.taResConv.setText(consText);
+                    }
+                    else {
+                        String consText = VConvFen.this.taResConv.getText();
+                        consText += "\nErreur lors du chargement de l'image, elle dépasse 320*240 pixels";
+                        VConvFen.this.taResConv.setText(consText);
+                    }
                 }
             }
         }
@@ -219,6 +242,26 @@ public class VConvFen extends JFrame  implements Observer{
         @Override
         public void actionPerformed(ActionEvent e) {
             VConvFen.this.modele.lancerConversion();
+        }
+    }
+    
+    /**
+     *  Classe listener pour le bouton de lancement de conversion d'une couleur
+     */
+    public class ConvCouleurLIstener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            V255ToCode fen = new V255ToCode();
+        }
+    }
+    
+    /**
+     *  Classe listener pour le bouton de lancement de la fen d'infos
+     */
+    public class InfosLIstener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            VILogicielInfos inf = new VILogicielInfos();
         }
     }
 }
