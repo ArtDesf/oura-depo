@@ -23,7 +23,8 @@ public class ImgToBmpKeilConvertor {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
+        MConvFen modele = new MConvFen();
+        VConvFen vue = new VConvFen(modele);
     }
     
 }
