@@ -168,7 +168,7 @@ public class VConvFen extends JFrame  implements Observer{
     /**
      * Fonction de mise à jour de la vue
      * @param o
-     * @param arg 
+     * @param arg   
      */
     @Override
     public void update(Observable o, Object arg) {
